@@ -3,14 +3,16 @@ import { Link } from 'react-router';
 
 export default function SignUpPage() {
   return (
-    <div className="flex min-h-[calc(100dvh-4rem)] items-center justify-center">
-      <div className="flex flex-col gap-2 mx-auto w-full max-w-sm items-center">
-        <h1 className="text-2xl font-semibold">Sign Up</h1>
+    <div className="flex min-h-[calc(100dvh-4rem)] items-center justify-center px-4 py-8 sm:px-6">
+      <div className="mx-auto flex w-full max-w-sm flex-col items-center gap-3">
+        <h1 className="text-2xl font-semibold sm:text-3xl">Sign Up</h1>
+
         <SignUpForm />
-        <p className="italic text-sm">
+
+        <p className="text-center text-sm italic text-gray-600">
           Already have an account?{' '}
-          <Link className="text-indigo-600" to="/login">
-            LogIn
+          <Link className="font-medium text-indigo-600 hover:text-indigo-800" to="/login">
+            Log In
           </Link>
         </p>
       </div>

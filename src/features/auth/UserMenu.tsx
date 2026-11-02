@@ -17,14 +17,19 @@ export default function UserMenu() {
   }
 
   return (
-    <div className="flex gap-3 items-center">
-      <div className="flex flex-col items-start">
-        <span>
+    <div className="flex min-w-0 items-center gap-2 sm:gap-3">
+      <div className="flex min-w-0 flex-col">
+        <span className="truncate text-sm font-medium sm:text-base">
           {user.firstName} {user.lastName}
         </span>
-        <span className="text-sm italic">{user.email}</span>
+        <span className="max-w-32 truncate text-xs italic text-gray-500 sm:max-w-none sm:text-sm">
+          {user.email}
+        </span>
       </div>
-      <Button onClick={logOut}>Log Out</Button>
+
+      <Button onClick={logOut} className="shrink-0 px-3 py-2 text-sm sm:px-4 sm:text-base">
+        Log Out
+      </Button>
     </div>
   );
 }

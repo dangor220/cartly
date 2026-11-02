@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import UserMenu from '@/features/auth/UserMenu';
+import { useAuth } from '@/features/auth/useAuth';
 import useCart from '@/features/cart/useCart';
 import Logo from '@/shared/ui/Logo';
+import Button from '@/shared/ui/Button/Button';
 import { NavLink } from 'react-router';
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
@@ -14,6 +16,7 @@ const navLinkClass = ({ isActive }: { isActive: boolean }) =>
 
 export default function Header() {
   const { count } = useCart();
+  const { user, logOut, isLoading } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const closeMenu = () => setIsMenuOpen(false);
@@ -21,7 +24,6 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/80 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
-        {/* Logo */}
         <NavLink className="shrink-0" to="/" aria-label="Cartly, at home" onClick={closeMenu}>
           <Logo />
         </NavLink>
@@ -48,34 +50,47 @@ export default function Header() {
 
         {/* Right section */}
         <div className="flex shrink-0 items-center gap-2">
-          <UserMenu />
+          {!isLoading && (
+            <div className="hidden md:block">
+              <UserMenu />
+            </div>
+          )}
+
+          {/* Login for mobile when logged out */}
+          {!isLoading && !user && (
+            <div className="md:hidden">
+              <UserMenu />
+            </div>
+          )}
 
           {/* Mobile menu button */}
           <button
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-md text-gray-600 transition-colors hover:bg-gray-100 md:hidden"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="inline-flex size-10 items-center justify-center rounded-md text-gray-600 transition-colors hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-indigo-600 md:hidden"
+            onClick={() => setIsMenuOpen((prev) => !prev)}
             aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={isMenuOpen}
             aria-controls="mobile-navigation">
             {isMenuOpen ? (
               <svg
-                className="h-6 w-6"
+                className="size-6"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
-                strokeLinecap="round">
+                strokeLinecap="round"
+                aria-hidden="true">
                 <path d="M18 6 6 18M6 6l12 12" />
               </svg>
             ) : (
               <svg
-                className="h-6 w-6"
+                className="size-6"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
-                strokeLinecap="round">
+                strokeLinecap="round"
+                aria-hidden="true">
                 <path d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             )}
@@ -106,6 +121,27 @@ export default function Header() {
                 </span>
               )}
             </NavLink>
+
+            {/* User section */}
+            {!isLoading && user && (
+              <div className="mt-2 border-t border-gray-200 pt-3">
+                <div className="mb-3 px-3">
+                  <p className="text-sm font-medium text-gray-900">
+                    {user.firstName} {user.lastName}
+                  </p>
+                  <p className="break-all text-xs text-gray-500">{user.email}</p>
+                </div>
+
+                <Button
+                  onClick={() => {
+                    closeMenu();
+                    void logOut();
+                  }}
+                  className="w-full">
+                  Log Out
+                </Button>
+              </div>
+            )}
           </div>
         </nav>
       )}

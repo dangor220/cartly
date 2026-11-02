@@ -6,6 +6,17 @@ type ButtonProps = {
   variant?: Variant;
 } & ComponentProps<'button'>;
 
-export default function Button({ variant = 'primary', className, ...props }: ButtonProps) {
-  return <button type="button" className={twMerge(buttonStyles(variant), className)} {...props} />;
+export default function Button({
+  variant = 'primary',
+  className,
+  type = 'button',
+  ...props
+}: ButtonProps) {
+  return (
+    <button
+      type={type}
+      className={twMerge(buttonStyles(variant), 'max-w-full whitespace-nowrap', className)}
+      {...props}
+    />
+  );
 }

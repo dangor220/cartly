@@ -11,21 +11,34 @@ type ProductListType = {
 
 export default function ProductList({ limit }: ProductListType) {
   const { isLoading, error, products, setProductLimit } = useProducts();
+
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   useEffect(() => {
     setProductLimit(limit);
   }, [limit, setProductLimit]);
 
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p role="alert">{error}</p>;
-  if (products.length === 0) return <p>There are no products yet</p>;
+  if (isLoading) {
+    return <p className="py-10 text-center text-gray-500">Loading...</p>;
+  }
+
+  if (error) {
+    return (
+      <p className="py-10 text-center text-red-600" role="alert">
+        {error}
+      </p>
+    );
+  }
+
+  if (products.length === 0) {
+    return <p className="py-10 text-center text-gray-500">There are no products yet</p>;
+  }
 
   return (
     <>
-      <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
         {products.map((product) => (
-          <li key={product.id}>
+          <li key={product.id} className="min-w-0">
             <ProductCard onPreview={setSelectedProduct} product={product} />
           </li>
         ))}

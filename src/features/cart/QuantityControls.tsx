@@ -23,27 +23,36 @@ export default function QuantityControls({ productId, quantity }: QuantityContro
   };
 
   return (
-    <div className="flex items-center gap-2">
-      <Button
-        variant="secondary"
-        disabled={isPending || quantity <= 1}
-        onClick={() => void run(() => setQuantity(productId, quantity - 1))}>
-        -
-      </Button>
-      <span className="w-6 text-center" aria-live="polite">
-        {quantity}
-      </span>
-      <Button
-        aria-label="Increase quantity"
-        disabled={isPending}
-        onClick={() => void run(() => setQuantity(productId, quantity + 1))}>
-        +
-      </Button>
+    <div className="flex flex-wrap items-center justify-end gap-2 sm:flex-nowrap">
+      {/* Quantity controls */}
+      <div className="flex items-center gap-1.5">
+        <Button
+          variant="secondary"
+          disabled={isPending || quantity <= 1}
+          onClick={() => void run(() => setQuantity(productId, quantity - 1))}
+          aria-label="Decrease quantity">
+          -
+        </Button>
+
+        <span className="w-7 text-center text-sm font-medium tabular-nums" aria-live="polite">
+          {quantity}
+        </span>
+
+        <Button
+          aria-label="Increase quantity"
+          disabled={isPending}
+          onClick={() => void run(() => setQuantity(productId, quantity + 1))}>
+          +
+        </Button>
+      </div>
+
+      {/* Remove button */}
       <Button
         variant="ghost-destructive"
         aria-label="Remove from cart"
         disabled={isPending}
-        onClick={() => void run(() => removeItem(productId))}>
+        onClick={() => void run(() => removeItem(productId))}
+        className="whitespace-nowrap text-sm">
         Remove
       </Button>
     </div>

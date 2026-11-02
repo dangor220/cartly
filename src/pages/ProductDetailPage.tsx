@@ -30,8 +30,9 @@ export default function ProductDetailPage() {
 
   return (
     <main className="min-h-screen bg-gray-50">
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
-        <nav className="mb-8 flex flex-wrap items-center gap-2 text-sm">
+      <div className="mx-auto w-full max-w-7xl px-4 py-5 sm:px-6 sm:py-8 lg:px-8 lg:py-12">
+        {/* Breadcrumbs */}
+        <nav className="mb-5 flex flex-wrap items-center gap-2 text-xs sm:mb-8 sm:text-sm">
           <Link to="/" className="text-gray-500 transition hover:text-gray-900">
             Home
           </Link>
@@ -44,17 +45,18 @@ export default function ProductDetailPage() {
 
           <span className="text-gray-300">/</span>
 
-          <span className="truncate font-medium text-gray-900">{name}</span>
+          <span className="max-w-[50%] truncate font-medium text-gray-900">{name}</span>
         </nav>
 
-        <section className="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
+        <section className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm sm:rounded-3xl">
           <div className="grid grid-cols-1 lg:grid-cols-2">
-            <div className="flex min-h-80 items-center justify-center bg-gray-100 p-6 sm:p-10 lg:min-h-140">
+            {/* Product image */}
+            <div className="flex min-h-64 items-center justify-center bg-gray-100 p-4 sm:min-h-80 sm:p-8 lg:min-h-140 lg:p-10">
               {image ? (
                 <img
                   src={image}
                   alt={name}
-                  className="max-h-130 w-full rounded-xl object-contain transition duration-500 hover:scale-[1.03]"
+                  className="max-h-80 w-full rounded-xl object-contain transition duration-500 hover:scale-[1.03] sm:max-h-100 lg:max-h-130"
                 />
               ) : (
                 <div className="flex aspect-square w-full max-w-md items-center justify-center rounded-2xl bg-gray-200">
@@ -63,36 +65,41 @@ export default function ProductDetailPage() {
               )}
             </div>
 
-            <div className="flex flex-col p-6 sm:p-10 lg:p-12">
+            {/* Product information */}
+            <div className="flex min-w-0 flex-col p-5 sm:p-8 lg:p-12">
               <div>
                 <span className="inline-flex rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-indigo-700">
                   Product
                 </span>
 
-                <h1 className="mt-5 text-3xl font-bold tracking-tight text-gray-950 sm:text-4xl">
+                <h1 className="mt-4 break-words text-2xl font-bold tracking-tight text-gray-950 sm:mt-5 sm:text-4xl">
                   {name}
                 </h1>
 
-                <div className="mt-6">
+                <div className="mt-5 sm:mt-6">
                   <p className="text-sm font-medium text-gray-500">Price</p>
 
-                  <p className="mt-1 text-3xl font-bold tracking-tight text-gray-950">
+                  <p className="mt-1 text-2xl font-bold tracking-tight text-gray-950 sm:text-3xl">
                     {priceFormatter.format(price)}
                   </p>
                 </div>
               </div>
 
-              <div className="my-8 h-px bg-gray-200" />
+              <div className="my-6 h-px bg-gray-200 sm:my-8" />
 
+              {/* Description */}
               <div>
-                <h2 className="text-lg font-semibold text-gray-900">About this product</h2>
+                <h2 className="text-base font-semibold text-gray-900 sm:text-lg">
+                  About this product
+                </h2>
 
-                <p className="mt-3 whitespace-pre-line text-base leading-7 text-gray-600">
+                <p className="mt-3 whitespace-pre-line break-words text-sm leading-6 text-gray-600 sm:text-base sm:leading-7">
                   {description || 'No description available for this product yet.'}
                 </p>
               </div>
 
-              <div className="mt-8 space-y-4">
+              {/* Benefits */}
+              <div className="mt-6 space-y-4 sm:mt-8">
                 <div className="flex items-start gap-3">
                   <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-green-100 text-sm text-green-700">
                     ✓
@@ -100,7 +107,7 @@ export default function ProductDetailPage() {
 
                   <div>
                     <p className="text-sm font-medium text-gray-900">Quality you can trust</p>
-                    <p className="mt-1 text-sm text-gray-500">
+                    <p className="mt-1 text-xs text-gray-500 sm:text-sm">
                       Carefully selected for your everyday needs.
                     </p>
                   </div>
@@ -113,13 +120,18 @@ export default function ProductDetailPage() {
 
                   <div>
                     <p className="text-sm font-medium text-gray-900">Simple and convenient</p>
-                    <p className="mt-1 text-sm text-gray-500">Everything you need in one place.</p>
+                    <p className="mt-1 text-xs text-gray-500 sm:text-sm">
+                      Everything you need in one place.
+                    </p>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-auto pt-10">
-                <AddToCartButton productId={product.id} />
+              {/* Actions */}
+              <div className="mt-8 pt-2 sm:mt-auto sm:pt-10">
+                <div className="w-full">
+                  <AddToCartButton productId={product.id} />
+                </div>
 
                 <Link
                   to="/products"

@@ -9,12 +9,14 @@ import Modal from '@/shared/ui/Modal';
 
 export default function LogInForm() {
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     setError,
     formState: { errors, isSubmitting },
   } = useForm<LogInData>({ resolver: zodResolver(logInSchema) });
+
   const { logIn, emailVerification, hideVerifyEmail } = useAuth();
 
   const onSubmit = async (data: LogInData) => {
@@ -33,62 +35,71 @@ export default function LogInForm() {
 
   return (
     <>
-      <form
-        className="flex flex-col gap-4 items-start"
-        onSubmit={handleSubmit(onSubmit)}
-        noValidate>
-        <label className="flex gap-2 items-center">
-          <span>Email:</span>
+      <form className="flex w-full flex-col gap-4" onSubmit={handleSubmit(onSubmit)} noValidate>
+        <div className="flex flex-col gap-1">
+          <label htmlFor="login-email" className="text-sm font-medium text-gray-700">
+            Email
+          </label>
           <input
-            className="px-1 py-1"
+            id="login-email"
+            className="w-full min-w-0 rounded-md border border-gray-300 px-3 py-2.5 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
             type="email"
             autoComplete="email"
             placeholder="you@example.com"
             {...register('email')}
           />
-        </label>
-        {errors.email && (
-          <p className="italic text-red-500 text-sm" role="alert">
-            {errors.email.message}
-          </p>
-        )}
-        <label className="flex gap-2 items-center">
-          <span>Password:</span>
+          {errors.email && (
+            <p className="text-sm italic text-red-500" role="alert">
+              {errors.email.message}
+            </p>
+          )}
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label htmlFor="login-password" className="text-sm font-medium text-gray-700">
+            Password
+          </label>
           <input
-            className="px-1 py-1"
+            id="login-password"
+            className="w-full min-w-0 rounded-md border border-gray-300 px-3 py-2.5 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
             type="password"
-            autoComplete="new-password"
+            autoComplete="current-password"
             placeholder="********"
             {...register('password')}
           />
-        </label>
-        {errors.password && (
-          <p className="italic text-red-500 text-sm" role="alert">
-            {errors.password.message}
-          </p>
-        )}
+          {errors.password && (
+            <p className="text-sm italic text-red-500" role="alert">
+              {errors.password.message}
+            </p>
+          )}
+        </div>
+
         {errors.root && (
-          <p className="italic text-red-500 text-sm" role="alert">
+          <p className="text-sm italic text-red-500" role="alert">
             {errors.root.message}
           </p>
         )}
 
-        <Button className="self-center" type="submit" disabled={isSubmitting}>
+        <Button
+          className="mt-2 w-full sm:w-auto sm:self-center"
+          type="submit"
+          disabled={isSubmitting}>
           {isSubmitting ? 'Logging in...' : 'Log in'}
         </Button>
       </form>
 
-      <Modal open={emailVerification} onClose={hideVerifyEmail} title={'Verify your email'}>
+      <Modal open={emailVerification} onClose={hideVerifyEmail} title="Verify your email">
         {emailVerification && (
           <div className="flex flex-col items-center gap-3 py-4 text-center">
-            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-blue-100 text-blue-600">
+            <div className="flex size-14 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-600">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth={1.8}
                 stroke="currentColor"
-                className="h-7 w-7">
+                className="size-7"
+                aria-hidden="true">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -97,7 +108,7 @@ export default function LogInForm() {
               </svg>
             </div>
 
-            <h3 className="text-xl font-semibold text-gray-900">Check your email</h3>
+            <h3 className="text-lg font-semibold text-gray-900 sm:text-xl">Check your email</h3>
 
             <p className="max-w-sm text-sm leading-6 text-gray-500">
               We've sent you a verification link. Please check your inbox and confirm your account
