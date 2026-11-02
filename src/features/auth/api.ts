@@ -18,7 +18,10 @@ export async function signUp({ email, password, firstName, lastName }: SignUpDat
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
-    options: { data: { firstName, lastName } },
+    options: {
+      data: { firstName, lastName },
+      emailRedirectTo: `${window.location.origin}${import.meta.env.BASE_URL}`,
+    },
   });
 
   if (error) {
