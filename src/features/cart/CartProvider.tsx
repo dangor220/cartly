@@ -78,6 +78,10 @@ export default function CartProvider({ children }: { children: ReactNode }) {
     await addToServerCart(productId);
     setServerCart({ owner: email, lines: await getServerCart() });
   };
+  const refresh = async () => {
+    if (!email) return;
+    setServerCart({ owner: email, lines: await getServerCart() });
+  };
 
   const setQuantity = async (productId: number, quantity: number) => {
     if (!email) {
@@ -94,7 +98,8 @@ export default function CartProvider({ children }: { children: ReactNode }) {
   const removeItem = (productId: number) => setQuantity(productId, 0);
 
   return (
-    <CartContext value={{ lines, count, isLoading, error, addItem, setQuantity, removeItem }}>
+    <CartContext
+      value={{ lines, count, isLoading, error, addItem, refresh, setQuantity, removeItem }}>
       {children}
     </CartContext>
   );

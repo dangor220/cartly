@@ -8,6 +8,10 @@ import RootLayout from './RootLayout';
 import CartPage from '@/pages/CartPage';
 import ProductDetailPage from '@/pages/ProductDetailPage';
 import ProductsPage from '@/pages/ProductsPage';
+import RequireAuth from './RequireAuth';
+import CheckoutPage from '@/pages/CheckoutPage';
+import OrdersPage from '@/pages/OrdersPage';
+import OrderPage from '@/pages/OrderPage';
 
 export const router = createBrowserRouter(
   [
@@ -38,6 +42,14 @@ export const router = createBrowserRouter(
         {
           path: '*',
           Component: NotFoundPage,
+        },
+        {
+          Component: RequireAuth,
+          children: [
+            { path: 'checkout', Component: CheckoutPage },
+            { path: 'orders', Component: OrdersPage },
+            { path: 'orders/:id', Component: OrderPage },
+          ],
         },
       ],
     },
